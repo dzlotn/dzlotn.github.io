@@ -1,0 +1,142 @@
+:root {
+  --bg: #f6f3ec;
+  --card: #ffffff;
+  --ink: #1f2a2a;
+  --muted: #5d6b69;
+  --rule: #e2dccd;
+  --accent: #c8452d;
+
+  /* skill graph */
+  --tech: #2563a8;
+  --soft: #b26b00;
+  --interest: #2e7d3e;
+  --edge: #d3cbb8;
+
+  /* travel map */
+  --sea: #cfe3e6;
+  --land: #e9e2d0;
+  --coast: #bdb49c;
+
+  --nav-h: 56px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a { color: var(--accent); }
+h1, h2 { font-family: Georgia, "Times New Roman", serif; line-height: 1.2; }
+
+/* ---------- navbar ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 max(16px, calc((100% - 1100px) / 2));
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav .name { margin-right: auto; font: 700 18px Georgia, serif; color: var(--ink); text-decoration: none; }
+.nav a:not(.name) { color: var(--muted); text-decoration: none; font-size: 15px; }
+.nav a:not(.name):hover, .nav a.active { color: var(--ink); }
+.nav a.active { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+
+/* ---------- sections ---------- */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 16px;
+  scroll-margin-top: var(--nav-h);
+  border-bottom: 1px solid var(--rule);
+}
+section:last-of-type { border-bottom: 0; }
+section > h2 { margin: 0 0 6px; font-size: 32px; }
+.sub { margin: 0 0 28px; color: var(--muted); }
+
+/* ---------- about ---------- */
+.about { display: flex; align-items: center; gap: 48px; }
+.about img { width: 220px; height: 220px; flex: none; border-radius: 50%; object-fit: cover; border: 4px solid var(--card); box-shadow: 0 4px 20px rgb(0 0 0 / .1); }
+.about h1 { margin: 0 0 12px; font-size: 44px; }
+.about p { margin: 0 0 12px; max-width: 620px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.links a { padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 15px; }
+.links a:hover { background: var(--ink); color: var(--bg); }
+
+/* ---------- news ---------- */
+.year { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--rule); }
+.year:first-of-type { border-top: 0; padding-top: 0; }
+.year h3 { margin: 0; font: 700 22px Georgia, serif; color: var(--accent); }
+.year ul { margin: 0; padding-left: 18px; }
+.year li { margin-bottom: 8px; }
+
+/* ---------- shared figure frame ---------- */
+.frame { overflow-x: auto; border-radius: 12px; }
+.frame svg { display: block; width: 100%; margin: auto; }
+
+/* ---------- skill graph ---------- */
+.key { display: flex; flex-wrap: wrap; gap: 20px; margin: 0 0 16px; padding: 0; list-style: none; font-size: 15px; }
+.key li::before { content: "●"; margin-right: 6px; }
+#graph { min-width: 760px; background: var(--card); }
+#graph line { stroke: var(--edge); stroke-width: 1.5; }
+#graph text { font-size: 13px; }
+.tech { color: var(--tech); fill: var(--tech); }
+.soft { color: var(--soft); fill: var(--soft); }
+.interest { color: var(--interest); fill: var(--interest); }
+.project, .pin { cursor: pointer; outline: none; }
+.project circle { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
+.project:hover circle, .project:focus circle { stroke: var(--accent); stroke-width: 3; }
+.project text { fill: var(--ink); font-weight: 600; }
+
+/* ---------- travel map ---------- */
+#map { min-width: 720px; background: var(--sea); }
+.land { fill: var(--land); stroke: var(--coast); stroke-width: .4; }
+.stem { stroke: var(--accent); stroke-width: 1.2; }
+.dot { fill: var(--accent); }
+.ring { fill: none; stroke: #fff; stroke-width: 2.5; }
+.pin:hover .ring, .pin:focus .ring { stroke: var(--accent); }
+.pin text { font: bold 10.5px Georgia, serif; text-anchor: middle; fill: var(--ink); stroke: #fff; stroke-width: 3; paint-order: stroke; }
+
+/* ---------- popup (projects + travel) ---------- */
+dialog { width: min(720px, 94vw); padding: 0; border: 0; border-radius: 12px; overflow: hidden; color: var(--ink); }
+dialog::backdrop { background: rgb(20 30 30 / .7); }
+.stage { position: relative; background: #111; }
+.stage img { display: block; width: 100%; height: min(62vh, 520px); object-fit: contain; }
+.stage button { position: absolute; width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgb(255 255 255 / .88); font-size: 24px; line-height: 1; cursor: pointer; }
+#prev { left: 10px; top: calc(50% - 22px); }
+#next { right: 10px; top: calc(50% - 22px); }
+#close { right: 10px; top: 10px; }
+.info { padding: 14px 22px 20px; }
+.info h2 { display: inline; font-size: 24px; }
+#count { float: right; color: var(--muted); }
+.info p { margin: 8px 0 0; }
+
+footer { padding: 32px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+
+/* ---------- phones ---------- */
+@media (max-width: 700px) {
+  .nav { gap: 14px; }
+  .nav .name { font-size: 16px; }
+  .nav a:not(.name) { font-size: 14px; }
+  section { padding: 48px 16px; }
+  .about { flex-direction: column; text-align: center; gap: 24px; }
+  .about img { width: 160px; height: 160px; }
+  .about h1 { font-size: 34px; }
+  .links { justify-content: center; }
+  .year { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 420px) {
+  .nav .name { display: none; }
+  .nav .name + a { margin-left: auto; }
+}

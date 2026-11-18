@@ -1,0 +1,81 @@
+// ring order, clockwise from top
+const SKILLS = [
+  { id: 'sec',      label: 'Security & Crypto',         group: 'tech' },
+  { id: 'first',    label: 'First-Principles Thinking', group: 'soft' },
+  { id: 'fp',       label: 'Functional Programming',    group: 'tech' },
+  { id: 'finance',  label: 'Finance',                   group: 'interest' },
+  { id: 'learn',    label: 'Self-Directed Learning',    group: 'soft' },
+  { id: 'physics',  label: 'Physics & Simulation',      group: 'interest' },
+  { id: 'gpu',      label: 'GPU & Systems',             group: 'tech' },
+  { id: 'robotics', label: 'Robotics',                  group: 'interest' },
+  { id: 'pressure', label: 'Debugging Under Pressure',  group: 'soft' },
+  { id: 'ml',       label: 'Machine Learning',          group: 'tech' },
+  { id: 'problem',  label: 'Problem Finding',           group: 'soft' },
+  { id: 'data',     label: 'Data & Forecasting',        group: 'tech' },
+  { id: 'lead',     label: 'Leadership',                group: 'soft' },
+  { id: 'client',   label: 'Client Communication',      group: 'soft' },
+  { id: 'team',     label: 'Teamwork',                  group: 'soft' },
+  { id: 'web',      label: 'Full-Stack Web',            group: 'tech' },
+  { id: 'hw',       label: 'Hardware & Signals',        group: 'tech' },
+  { id: 'health',   label: 'Health Tech',               group: 'interest' },
+];
+
+// inner ring order, clockwise from top (each near its skills)
+const PROJECTS = [
+  {
+    id: 'fortress',
+    title: 'Fortress',
+    image: 'images/projects/Fortress.png',
+    blurb: 'Generate, analyze, encrypt, and store passwords, with a from-scratch AES-256 implementation and hand-built strength scoring.',
+    skills: ['sec', 'web', 'first'],
+  },
+  {
+    id: 'optifolio',
+    title: 'OptiFolio',
+    image: 'images/projects/optiblack.png',
+    blurb: 'A portfolio optimizer built from scratch in OCaml that turns a risk questionnaire into a quantitative profile and scores real stocks against it.',
+    skills: ['fp', 'finance', 'data', 'first', 'learn'],
+  },
+  {
+    id: 'meander',
+    title: 'Meander',
+    image: 'images/projects/meander.jpg',
+    blurb: 'A real-time fluid simulator that solves the Navier-Stokes equations on the GPU every frame. Paint obstacles and terrain with the mouse and watch water carve channels through sand.',
+    skills: ['gpu', 'physics', 'learn'],
+  },
+  {
+    id: 'causticguard',
+    title: 'CausticGuard',
+    image: 'images/projects/caustic.png',
+    blurb: 'CUDA-accelerated caustics suppression for CUAUV\'s underwater vision pipeline, built after our YOLO model failed outdoors at competition.',
+    skills: ['gpu', 'ml', 'robotics', 'pressure', 'team'],
+  },
+  {
+    id: 'cato',
+    title: 'Cato',
+    image: 'images/projects/catowhite.png',
+    blurb: 'A two-stage semantic search engine over 2+ years of support tickets and 1,000+ wiki pages that resolves about half of weekly developer questions.',
+    skills: ['ml', 'data', 'problem'],
+  },
+  {
+    id: 'tariff',
+    title: 'TariffInsight',
+    image: 'images/projects/tariffpic2.png',
+    blurb: 'For Finger Lakes Goods: an ML model that forecasts a tariff\'s sales drawdown and recovery, plus a dashboard to simulate future tariffs.',
+    skills: ['data', 'web', 'client', 'lead', 'finance', 'team'],
+  },
+  {
+    id: 'nexus',
+    title: 'NexusRTS',
+    image: 'images/projects/ProjectNexus.png',
+    blurb: 'Truck-aware route optimization for a freight client that scores routes on live weather, forecasted traffic, and fuel access, then estimates the real cost.',
+    skills: ['web', 'data', 'client', 'team'],
+  },
+  {
+    id: 'tremortrackr',
+    title: 'TremorTrackr',
+    image: 'images/projects/tremortrackr.png',
+    blurb: 'A wrist-worn motion and muscle sensor that continuously measures Parkinson\'s tremor, from raw hardware to signal processing to a web app.',
+    skills: ['hw', 'data', 'web', 'health', 'team'],
+  },
+];
