@@ -33,6 +33,7 @@ body {
 }
 
 a { color: var(--accent); }
+
 h1, h2 { font-family: Georgia, "Times New Roman", serif; line-height: 1.2; }
 
 /* ---------- navbar ---------- */
