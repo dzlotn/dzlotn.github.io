@@ -4,11 +4,11 @@
   --ink: #1f2a2a;
   --muted: #5d6b69;
   --rule: #e2dccd;
-  --accent: #c8452d;
+  --accent: #b23a24;   /* darkened from #c8452d to pass WCAG AA contrast (5.4:1) */
 
   /* skill graph */
   --tech: #2563a8;
-  --transferable: #b26b00;
+  --transferable: #965a00;   /* darkened from #b26b00 to pass WCAG AA contrast */
   --interest: #2e7d3e;
   --edge: #d3cbb8;
 
@@ -21,6 +21,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; }
 
@@ -69,10 +70,18 @@ section > h2 { margin: 0 0 6px; font-size: 32px; }
 .about { display: flex; align-items: center; gap: 48px; }
 .about img { width: 220px; height: 220px; flex: none; border-radius: 50%; object-fit: cover; border: 4px solid var(--card); box-shadow: 0 4px 20px rgb(0 0 0 / .1); }
 .about h1 { margin: 0 0 12px; font-size: 44px; }
+.about .tagline { font-size: 21px; line-height: 1.45; font-weight: 600; }
 .about p { margin: 0 0 12px; max-width: 620px; }
 .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
 .links a { padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 15px; }
 .links a:hover { background: var(--ink); color: var(--bg); }
+.links a.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.links a.primary:hover { background: var(--ink); border-color: var(--ink); }
+
+/* ---------- contact ---------- */
+#contact { text-align: center; }
+#contact .sub { max-width: 560px; margin-left: auto; margin-right: auto; }
+#contact .links { justify-content: center; }
 
 /* ---------- news ---------- */
 .year { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--rule); }
@@ -97,7 +106,8 @@ section > h2 { margin: 0 0 6px; font-size: 32px; }
 .project, .pin { cursor: pointer; outline: none; }
 .project circle { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
 .project:hover circle, .project:focus circle { stroke: var(--accent); stroke-width: 3; }
-.project text { fill: var(--ink); font-weight: 600; }
+/* a halo in the background color keeps lines from running through the titles */
+.project text { fill: var(--ink); font-weight: 600; stroke: var(--card); stroke-width: 6px; stroke-linejoin: round; paint-order: stroke; }
 
 /* hovering a project or skill fades everything unrelated */
 #graph line, .project, .skill { transition: opacity .2s; }
@@ -112,8 +122,9 @@ section > h2 { margin: 0 0 6px; font-size: 32px; }
 
 /* ---------- travel map ---------- */
 #map { min-width: 720px; background: var(--sea); }
-.land { fill: var(--land); stroke: var(--coast); stroke-width: .4; }
-.stem { stroke: var(--accent); stroke-width: 1.2; }
+.land { fill: var(--land); stroke: var(--coast); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.stem { stroke: var(--accent); stroke-width: 1.5; }
+.trips { display: none; }
 .dot { fill: var(--accent); }
 .ring { fill: none; stroke: #fff; stroke-width: 2.5; }
 .pin:hover .ring, .pin:focus .ring { stroke: var(--accent); }
@@ -133,13 +144,28 @@ dialog::backdrop { background: rgb(20 30 30 / .7); }
 #count { float: right; color: var(--muted); }
 .info p { margin: 8px 0 0; }
 
-/* project popup: big, with the text and skills taking most of the space */
-dialog.wide { width: min(1100px, 94vw); max-height: 90vh; }
-dialog.wide[open] { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
-.wide .stage img { height: 100%; min-height: 460px; }
-.wide .info { padding: 36px 40px; overflow-y: auto; }
-.wide .info h2 { display: block; font-size: 34px; }
-.wide .info p { margin-top: 14px; font-size: 18px; }
+/* project popup: wide image on top at its own shape, description and skills side by side below */
+dialog.wide { width: min(1100px, 94vw); max-height: 92vh; overflow-y: auto; }
+.wide .stage img { height: auto; max-height: 52vh; }
+.stage video { display: block; width: 100%; max-height: 52vh; background: #111; }
+#code { grid-column: 1; display: inline-block; margin-top: 16px; font-weight: 600; }
+.wide .info { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 48px; align-content: start; padding: 28px 40px 36px; }
+.wide #count { display: none; }
+.wide .info h2 { display: block; grid-column: 1; margin: 0; font-size: 34px; }
+.wide .info p { grid-column: 1; margin-top: 12px; font-size: 18px; }
+/* title, text and code link stack tightly on the left; any extra height goes to the empty last row */
+.wide .info { grid-template-rows: auto auto auto 1fr; }
+.wide #skills { grid-column: 2; grid-row: 1 / 5; }
+.wide #skills h3:first-child { margin-top: 6px; }
+/* travel popup: same size and type as projects, but photo beside the text (photos are mostly portrait) */
+dialog.trip { width: min(1000px, 94vw); }
+dialog.trip[open] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.trip .stage img { height: min(80vh, 640px); }
+.trip .info { max-height: min(80vh, 640px); padding: 36px 40px; overflow-y: auto; }
+.trip .info h2 { display: block; font-size: 34px; }
+.trip #count { display: block; float: none; margin-top: 6px; font-size: 15px; }
+.trip .info p { margin-top: 14px; font-size: 18px; }
+
 #skills h3 { margin: 24px 0 10px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tag { padding: 5px 14px; border: 1.5px solid currentColor; border-radius: 999px; background: color-mix(in srgb, currentColor 10%, white); font-size: 15px; font-weight: 600; }
@@ -157,11 +183,22 @@ footer { padding: 32px 16px; text-align: center; color: var(--muted); font-size:
   .about h1 { font-size: 34px; }
   .links { justify-content: center; }
   .year { grid-template-columns: 1fr; gap: 6px; }
-  dialog.wide[open] { grid-template-columns: 1fr; overflow-y: auto; }
-  .wide .stage img { min-height: 0; height: 32vh; }
-  .wide .info { padding: 20px 22px 24px; overflow: visible; }
+  .wide .info { grid-template-columns: 1fr; padding: 20px 22px 24px; }
+  .wide #skills { grid-column: 1; grid-row: auto; margin-top: 8px; }
   .wide .info h2 { font-size: 26px; }
   .wide .info p { font-size: 17px; }
+  dialog.trip[open] { grid-template-columns: 1fr; max-height: 92vh; overflow-y: auto; }
+  .trip .stage img { height: 50vh; }
+  .trip .info { max-height: none; padding: 20px 22px 24px; overflow: visible; }
+  .trip .info h2 { font-size: 26px; }
+  .trip .info p { font-size: 17px; }
+
+  /* the map is too small to read on a phone, so show photo cards instead */
+  #travel .frame { display: none; }
+  .trips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .trips button { display: block; width: 100%; padding: 0; border: 0; border-radius: 10px; overflow: hidden; background: var(--card); color: var(--ink); font: 600 15px/1.3 Georgia, serif; text-align: left; cursor: pointer; box-shadow: 0 1px 4px rgb(0 0 0 / .1); }
+  .trips img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .trips span { display: block; padding: 8px 10px 10px; }
 }
 @media (max-width: 420px) {
   .nav .name { display: none; }

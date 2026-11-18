@@ -27,12 +27,14 @@ const GROUPS = [
   { id: 'interest',     label: 'Interests' },
 ];
 
+// optional per project: code (GitHub link), video + captions (narrated demo, .mp4 + .vtt)
 // inner ring order, clockwise from top (each near its skills)
 const PROJECTS = [
   {
     id: 'fortress',
     title: 'Fortress',
     image: 'images/projects/Fortress.png',
+    code: 'https://github.com/dzlotn/Fortress',
     blurb: 'I built a tool that generates, analyzes, encrypts, and stores passwords. I implemented AES-256 encryption from scratch and designed my own password-strength scoring.',
     skills: ['sec', 'web', 'first'],
   },
@@ -40,6 +42,7 @@ const PROJECTS = [
     id: 'optifolio',
     title: 'OptiFolio',
     image: 'images/projects/optiblack.png',
+    code: 'https://github.com/dzlotn/OptiFolio',
     blurb: 'I built a portfolio optimizer from scratch in OCaml. It turns a risk questionnaire into a quantitative investor profile, then scores real stocks against that profile.',
     skills: ['fp', 'finance', 'data', 'first', 'learn'],
   },
@@ -47,6 +50,7 @@ const PROJECTS = [
     id: 'meander',
     title: 'Meander',
     image: 'images/projects/meander.jpg',
+    code: 'https://github.com/dzlotn/meander',
     blurb: 'I built a real-time fluid simulator that solves the Navier-Stokes equations on the GPU every frame. Users paint obstacles and terrain with the mouse and watch water carve channels through sand.',
     skills: ['gpu', 'physics', 'learn'],
   },
@@ -54,6 +58,7 @@ const PROJECTS = [
     id: 'causticguard',
     title: 'CausticGuard',
     image: 'images/projects/caustic.png',
+    code: 'https://github.com/dzlotn/CausticGuard',
     blurb: 'I built CUDA-accelerated caustics suppression for CUAUV\'s underwater vision pipeline after our team\'s YOLO model failed outdoors at competition.',
     skills: ['gpu', 'ml', 'robotics', 'pressure', 'team'],
   },
@@ -82,6 +87,7 @@ const PROJECTS = [
     id: 'tremortrackr',
     title: 'TremorTrackr',
     image: 'images/projects/tremortrackr.png',
+    code: 'https://github.com/dzlotn/TremorTrackr',
     blurb: 'I built a wrist-worn motion and muscle sensor that continuously measures Parkinson\'s tremor. I handled every layer, from the raw hardware to the signal processing to the web app.',
     skills: ['hw', 'data', 'web', 'health', 'team'],
   },

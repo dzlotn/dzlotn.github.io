@@ -4,8 +4,21 @@ const $ = id => document.getElementById(id);
 const box = $('box');
 let slides = [], index = 0;
 
+// slides are { src, alt } for photos, or { video, captions, alt } for a video
 function showSlide() {
-  $('photo').src = slides[index];
+  const slide = slides[index], photo = $('photo'), video = $('video');
+  video.pause();
+  if (slide.video) {
+    video.src = slide.video;
+    video.setAttribute('aria-label', slide.alt);
+    video.innerHTML = slide.captions
+      ? `<track kind="captions" src="${slide.captions}" srclang="en" label="English" default>` : '';
+  } else {
+    photo.src = slide.src;
+    photo.alt = slide.alt;
+  }
+  video.hidden = !slide.video;
+  photo.hidden = !!slide.video;
   const many = slides.length > 1;
   $('count').textContent = many ? `${index + 1} / ${slides.length}` : '';
   $('prev').hidden = $('next').hidden = !many;
@@ -14,14 +27,17 @@ function step(by) {
   index = (index + by + slides.length) % slides.length;
   showSlide();
 }
-// skillsHtml is only passed for projects; it switches the popup to the wide layout
-function openPopup(title, text, images, skillsHtml = '') {
+// skillsHtml is only passed for projects: wide image on top. Travel photos are mostly
+// portrait, so trips put the photo beside the text instead.
+function openPopup(title, text, images, skillsHtml = '', codeUrl = '') {
   slides = images;
   index = 0;
   $('title').textContent = title;
   $('text').textContent = text;
   $('skills').innerHTML = skillsHtml;
-  box.classList.toggle('wide', !!skillsHtml);
+  $('code').href = codeUrl;
+  $('code').hidden = !codeUrl;
+  box.className = skillsHtml ? 'wide' : 'trip';
   showSlide();
   box.showModal();
 }
@@ -39,6 +55,7 @@ function skillTags(project) {
 $('prev').onclick = () => step(-1);
 $('next').onclick = () => step(1);
 $('close').onclick = () => box.close();
+box.onclose = () => $('video').pause();
 box.onclick = e => { if (e.target === box) box.close(); };
 box.onkeydown = e => {
   if (e.key === 'ArrowLeft') step(-1);
@@ -99,7 +116,10 @@ function pointOnCircle(i, total, radius) {
   svg.innerHTML = html;
   svg.querySelectorAll('.project').forEach((g, i) => {
     const project = PROJECTS[i];
-    clickable(g, () => openPopup(project.title, project.blurb, [project.image], skillTags(project)));
+    // a narrated demo video (if there is one) comes first, then the screenshot
+    const media = [{ src: project.image, alt: project.title }];
+    if (project.video) media.unshift({ video: project.video, captions: project.captions, alt: `${project.title} demo video` });
+    clickable(g, () => openPopup(project.title, project.blurb, media, skillTags(project), project.code));
   });
 
   // hover a project to light up its skills, or a skill to light up its projects
@@ -130,22 +150,35 @@ function pointOnCircle(i, total, radius) {
 /* ---------- travel map ---------- */
 (function drawMap() {
   const map = $('map');
-  $('land').setAttribute('d', WORLD_PATH);
+
+  // WORLD_PATH spans the whole world at 1000x397 (equirectangular, 2.778 units per degree).
+  // Zoom in on the region I've been to: longitude -125..25, latitude 62..2.
+  const X0 = 55 * 2.778, Y0 = 23 * 2.778, ZOOM = 2.4;
+  const land = $('land');
+  land.setAttribute('d', WORLD_PATH);
+  land.setAttribute('transform', `scale(${ZOOM}) translate(${-X0} ${-Y0})`);
+
+  const open = p => openPopup(p.name, p.text, p.pics.map(n => ({ src: PHOTO(n), alt: p.name })));
 
   for (const p of places) {
-    // real location on the map (equirectangular)
-    const px = (p.lon + 180) * 2.778, py = (85 - p.lat) * 2.778;
+    // real location on the zoomed map
+    const px = ((p.lon + 180) * 2.778 - X0) * ZOOM, py = ((85 - p.lat) * 2.778 - Y0) * ZOOM;
     map.insertAdjacentHTML('beforeend', `
       <g class="pin" tabindex="0" role="button" aria-label="${p.name}">
         <line class="stem" x1="${px}" y1="${py}" x2="${p.x}" y2="${p.y}"/>
-        <circle class="dot" cx="${px}" cy="${py}" r="2.2"/>
-        <image href="${PHOTOS[p.cover]}" x="${p.x - 25}" y="${p.y - 25}" width="50" height="50"
+        <circle class="dot" cx="${px}" cy="${py}" r="3.5"/>
+        <image href="${PHOTO(p.cover)}" x="${p.x - 25}" y="${p.y - 25}" width="50" height="50"
                preserveAspectRatio="xMidYMid slice" clip-path="url(#pin-round)"/>
         <circle class="ring" cx="${p.x}" cy="${p.y}" r="25"/>
         <text x="${p.x}" y="${p.y + 38}">${p.name}</text>
       </g>`);
-    clickable(map.lastElementChild, () => openPopup(p.name, p.text, p.pics.map(n => PHOTOS[n])));
+    clickable(map.lastElementChild, () => open(p));
   }
+
+  // phones get a grid of photo cards instead of the map (too small to read there)
+  $('trips').innerHTML = places.map((p, i) => `
+    <li><button data-i="${i}"><img src="${PHOTO(p.cover)}" alt=""><span>${p.name}</span></button></li>`).join('');
+  $('trips').querySelectorAll('button').forEach(b => { b.onclick = () => open(places[b.dataset.i]); });
 })();
 
 /* ---------- highlight the nav link for the section on screen ---------- */

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daniel Zlotnick</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <nav class="nav">
@@ -13,6 +13,7 @@
     <a href="#news">News</a>
     <a href="#projects">Projects</a>
     <a href="#travel">Travel</a>
+    <a href="#contact">Contact</a>
   </nav>
 
   <main>
@@ -22,6 +23,7 @@
         <img src="images/me.jpg" alt="Daniel Zlotnick">
         <div>
           <h1>Hi, I'm Daniel.</h1>
+          <p class="tagline">I build machine learning systems, from research on diffusion language models to AI tools at Morgan Stanley and Verizon.</p>
           <p>I am a student at <a href="https://www.engineering.cornell.edu/">Cornell Engineering</a> pursuing a Bachelor of Science in <a href="https://www.cs.cornell.edu/">Computer Science</a>.</p>
           <p>In my free time, I love trying new things, working out, playing ultimate frisbee, seeing friends, traveling, and watching TV.</p>
           <div class="links">
@@ -41,7 +43,7 @@
       <div class="year">
         <h3>2026</h3>
         <ul>
-          <li>My paper on diffusion language models with the <a href="https://relax-ml.cs.cornell.edu/">Relax ML Lab</a>, <em>Empowering Masked Diffusion Models to Self-Correct with Leave-One-Out Transformers</em>, was accepted to <a href="https://neurips.cc/">NeurIPS 2026</a></li>
+          <li>My paper on diffusion language models with the <a href="https://relax-ml.cs.cornell.edu/">Relax ML Lab</a>, <a href="https://neurips.cc/virtual/2026/poster/150367"><em>Empowering Masked Diffusion Models to Self-Correct with Leave-One-Out Transformers</em></a>, was accepted to <a href="https://neurips.cc/">NeurIPS 2026</a></li>
           <li>Promoted to Technology Vice President for <a href="https://cornelldatastrategy.com/">Cornell Data Strategy</a></li>
           <li>Completed a Software Engineering internship at <a href="https://www.morganstanley.com/">Morgan Stanley</a>, working on agenticizing a system used to maintain and create all Wealth Management accounts</li>
           <li>Joined the <a href="https://relax-ml.cs.cornell.edu/">Relax ML Lab</a>, doing research on large language diffusion models</li>
@@ -99,12 +101,24 @@
     <!-- TRAVEL (map) -->
     <section id="travel">
       <h2>Places I've Been</h2>
-      <p class="sub">Click a pin to see photos from the trip.</p>
+      <p class="sub">Click a place to see photos from the trip.</p>
       <div class="frame">
-        <svg id="map" viewBox="0 0 1000 397">
+        <svg id="map" viewBox="0 0 1000 400">
           <clipPath id="pin-round" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
           <path id="land" class="land"/>
         </svg>
+      </div>
+      <ul id="trips" class="trips"></ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Let's Talk</h2>
+      <p class="sub">I'm always happy to talk about machine learning research, software engineering, or working together. Email is the fastest way to reach me.</p>
+      <div class="links">
+        <a class="primary" href="mailto:daniel.zlotnick5@gmail.com">Email me</a>
+        <a href="https://www.linkedin.com/in/daniel-zlotnick-55a21b298/">Connect on LinkedIn</a>
+        <a href="https://github.com/dzlotn">See my GitHub</a>
       </div>
     </section>
   </main>
@@ -115,16 +129,17 @@
   <dialog id="box">
     <div class="stage">
       <img id="photo" alt="">
+      <video id="video" controls playsinline hidden></video>
       <button id="prev" aria-label="Previous photo">‹</button>
       <button id="next" aria-label="Next photo">›</button>
       <button id="close" aria-label="Close">×</button>
     </div>
-    <div class="info"><h2 id="title"></h2><span id="count"></span><p id="text"></p><div id="skills"></div></div>
+    <div class="info"><h2 id="title"></h2><span id="count"></span><p id="text"></p><a id="code" target="_blank" rel="noopener" hidden>View the code on GitHub →</a><div id="skills"></div></div>
   </dialog>
 
-  <script src="js/projects-data.js"></script>
-  <script src="js/travel-data.js"></script>
-  <script src="js/world.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/projects-data.js?v=3"></script>
+  <script src="js/travel-data.js?v=3"></script>
+  <script src="js/world.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>
