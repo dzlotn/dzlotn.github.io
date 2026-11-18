@@ -8,7 +8,7 @@
 
   /* skill graph */
   --tech: #2563a8;
-  --soft: #b26b00;
+  --transferable: #b26b00;
   --interest: #2e7d3e;
   --edge: #d3cbb8;
 
@@ -89,15 +89,26 @@ section > h2 { margin: 0 0 6px; font-size: 32px; }
 .key { display: flex; flex-wrap: wrap; gap: 20px; margin: 0 0 16px; padding: 0; list-style: none; font-size: 15px; }
 .key li::before { content: "●"; margin-right: 6px; }
 #graph { min-width: 760px; background: var(--card); }
-#graph line { stroke: var(--edge); stroke-width: 1.5; }
+#graph line { stroke: var(--edge); stroke-width: 1.2; opacity: .7; }
 #graph text { font-size: 13px; }
 .tech { color: var(--tech); fill: var(--tech); }
-.soft { color: var(--soft); fill: var(--soft); }
+.transferable { color: var(--transferable); fill: var(--transferable); }
 .interest { color: var(--interest); fill: var(--interest); }
 .project, .pin { cursor: pointer; outline: none; }
 .project circle { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
 .project:hover circle, .project:focus circle { stroke: var(--accent); stroke-width: 3; }
 .project text { fill: var(--ink); font-weight: 600; }
+
+/* hovering a project or skill fades everything unrelated */
+#graph line, .project, .skill { transition: opacity .2s; }
+#graph.focus line:not(.on),
+#graph.focus .project:not(.on),
+#graph.focus .skill:not(.on) { opacity: .12; }
+#graph.focus line.on { opacity: 1; stroke-width: 2.5; }
+#graph.focus line.on.tech { stroke: var(--tech); }
+#graph.focus line.on.transferable { stroke: var(--transferable); }
+#graph.focus line.on.interest { stroke: var(--interest); }
+#graph.focus .skill.on text { font-weight: 700; }
 
 /* ---------- travel map ---------- */
 #map { min-width: 720px; background: var(--sea); }
@@ -122,6 +133,17 @@ dialog::backdrop { background: rgb(20 30 30 / .7); }
 #count { float: right; color: var(--muted); }
 .info p { margin: 8px 0 0; }
 
+/* project popup: big, with the text and skills taking most of the space */
+dialog.wide { width: min(1100px, 94vw); max-height: 90vh; }
+dialog.wide[open] { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+.wide .stage img { height: 100%; min-height: 460px; }
+.wide .info { padding: 36px 40px; overflow-y: auto; }
+.wide .info h2 { display: block; font-size: 34px; }
+.wide .info p { margin-top: 14px; font-size: 18px; }
+#skills h3 { margin: 24px 0 10px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.tag { padding: 5px 14px; border: 1.5px solid currentColor; border-radius: 999px; background: color-mix(in srgb, currentColor 10%, white); font-size: 15px; font-weight: 600; }
+
 footer { padding: 32px 16px; text-align: center; color: var(--muted); font-size: 14px; }
 
 /* ---------- phones ---------- */
@@ -135,6 +157,11 @@ footer { padding: 32px 16px; text-align: center; color: var(--muted); font-size:
   .about h1 { font-size: 34px; }
   .links { justify-content: center; }
   .year { grid-template-columns: 1fr; gap: 6px; }
+  dialog.wide[open] { grid-template-columns: 1fr; overflow-y: auto; }
+  .wide .stage img { min-height: 0; height: 32vh; }
+  .wide .info { padding: 20px 22px 24px; overflow: visible; }
+  .wide .info h2 { font-size: 26px; }
+  .wide .info p { font-size: 17px; }
 }
 @media (max-width: 420px) {
   .nav .name { display: none; }
